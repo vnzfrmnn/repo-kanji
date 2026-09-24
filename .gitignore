@@ -1,0 +1,13 @@
+# Fonts (optional - keep local fonts out of repo)
+assets/fonts/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build/Deploy
+node_modules/
+dist/
+.vercel/
+.netlify/
+*.log
