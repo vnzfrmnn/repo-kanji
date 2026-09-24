@@ -1,4 +1,4 @@
-# Kartu Kanji — Angka & Hubungan Manusia 🟣
+# Kartu Kanji — Khusus Princess Adell Chinesee 🟣
 
 Flashcard kanji statis (HTML + CSS + vanilla JS, tanpa build). Bahasa antarmuka: Indonesia.
 
