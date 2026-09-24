@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Kartu Kanji — Angka & Hubungan Manusia</title>
+  <meta name="description" content="Flashcard kanji interaktif: angka, tanggal, hari, dan kosakata hubungan manusia. Balik kartu, tandai, dan hafalkan." />
+  <meta name="theme-color" content="#7c3aed" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟣</text></svg>" />
+  <!-- Google Fonts replaced with offline fonts in style.css -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-decor" aria-hidden="true"></div>
+
+  <div class="app" id="app">
+    <header class="header">
+      <button class="hbtn" id="btnBack" aria-label="Kembali ke dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Back</span>
+      </button>
+      <div class="brand">
+        <span class="brand-kanji">漢字</span>
+        <span class="brand-sub">Flashcard</span>
+      </div>
+      <button class="hbtn" id="btnAdd" aria-label="Tambah kartu baru" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Add</span>
+      </button>
+    </header>
+
+    <section class="stage" aria-live="polite">
+      <nav class="toolbar" aria-label="Peralatan deck">
+        <button class="tool" id="toolHint" aria-pressed="false" aria-label="Tampilkan petunjuk bacaan">
+          <span class="tool-ic">🖼️</span><span>Petunjuk</span>
+        </button>
+        <button class="tool" id="toolFilter" aria-haspopup="dialog" aria-label="Buka filter kartu">
+          <span class="tool-ic">🎛️</span><span>Filter</span>
+        </button>
+        <button class="tool" id="toolList" aria-haspopup="dialog" aria-label="Buka daftar kartu">
+          <span class="tool-ic">📋</span><span>Daftar</span>
+        </button>
+        <button class="tool" id="toolEdit" aria-haspopup="dialog" aria-label="Ubah kartu aktif">
+          <span class="tool-ic">✏️</span><span>Edit</span>
+        </button>
+        <button class="tool" id="toolTest" aria-label="Mode test acak">
+          <span class="tool-ic">📝</span><span>Test</span>
+        </button>
+      </nav>
+
+      <div class="card-wrap" id="cardWrap">
+        <div class="card" id="card" role="button" tabindex="0" aria-label="Kartu flashcard. Tekan Spasi atau Enter untuk membalik.">
+          <div class="card-inner" id="cardInner">
+            <div class="face front">
+              <span class="hint" id="hint" hidden></span>
+              <span class="kanji" id="kanjiFront">一日</span>
+              <span class="tap-hint">ketuk untuk melihat arti</span>
+            </div>
+            <div class="face back">
+              <span class="reading" id="readingBack">ついたち</span>
+              <span class="divider" aria-hidden="true"></span>
+              <span class="meaning" id="meaningBack">tanggal 1</span>
+              <span class="memo-dot" id="memoDot" hidden>📌 ada memo</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="corner bookmark" id="btnBookmark" aria-label="Tandai kartu ini" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.4 6.6-6-3.4-6 3.4 1.4-6.6L2.5 9.4l6.6-.7z"/></svg>
+        </button>
+        <button class="corner fs" id="btnFullscreen" aria-label="Mode layar penuh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        </button>
+        <button class="corner memo" id="btnMemo" aria-haspopup="dialog" aria-label="Tulis memo untuk kartu ini">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-6M9 10.5a3 3 0 1 1 6 0c0 2-3 2-3 4"/><circle cx="12" cy="17.5" r=".5" fill="currentColor"/></svg>
+          <span>Memo</span>
+        </button>
+      </div>
+
+      <div class="progress-row">
+        <span class="counter" id="counter">1/74</span>
+        <div class="bar" role="progressbar" aria-label="Kemajuan belajar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barWrap">
+          <div class="fill" id="barFill"></div>
+        </div>
+        <span class="pct" id="pct">0%</span>
+      </div>
+
+      <div class="nav">
+        <button class="btn ghost" id="btnPrev" aria-label="Kartu sebelumnya">← Prev</button>
+        <button class="btn primary" id="btnFlip" aria-label="Balik kartu">🔄 Balik</button>
+        <button class="btn ghost" id="btnNext" aria-label="Kartu berikutnya">Next →</button>
+      </div>
+      <p class="keys">⌨️ ← → pindah &bull; Spasi balik &bull; 👆 geser di HP</p>
+      <p class="filter-note" id="filterNote" hidden>🔖 Mode: hanya yang ditandai <button class="link" id="clearFilter">tampilkan semua</button></p>
+    </section>
+  </div>
+
+  <div class="overlay" id="ovFilter" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="filterTitle">
+      <h2 id="filterTitle">Filter & Urutan</h2>
+      <div class="seg" role="group" aria-label="Filter kartu">
+        <button class="seg-btn active" id="fAll">Semua</button>
+        <button class="seg-btn" id="fMarked">🔖 Ditandai</button>
+      </div>
+      <label class="row-check"><input type="checkbox" id="fShuffle" /> 🔀 Acak urutan (shuffle)</label>
+      <button class="btn primary block" id="fClose">Terapkan</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovList" hidden>
+    <div class="sheet wide" role="dialog" aria-modal="true" aria-labelledby="listTitle">
+      <h2 id="listTitle">Daftar kartu <small id="listCount"></small></h2>
+      <input class="search" id="listSearch" type="search" placeholder="Cari kanji / arti… (cth: 友達, teman)" aria-label="Cari kartu" />
+      <div class="list" id="listItems" role="listbox" aria-label="Daftar semua kartu"></div>
+      <button class="btn ghost block" id="listClose">Tutup</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovAdd" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+      <h2 id="addTitle">Tambah kartu</h2>
+      <small style="display:block; color:#6b7280; margin-bottom:12px; font-size:12px;">💡 Ketik Romaji atau Arti Indonesia → Kanji & Hiragana terisi otomatis</small>
+      <label>Ketik Romaji<input id="addRomaji" placeholder="例： neko, tomodachi, sensei" autocomplete="off" /></label>
+      <label>ATAU ketik Arti Indonesia<input id="addMeaning" placeholder="例： kucing, teman, guru" autocomplete="off" /></label>
+      <div style="margin:16px 0; padding:12px; background:#f3f4f6; border-radius:8px;">
+        <label style="margin:0;">Kanji (otomatis terisi)<input id="addKanji" placeholder="例： 猫" autocomplete="off" style="background:#fff;" /></label>
+        <label style="margin:8px 0 0;">Bacaan (otomatis terisi)<input id="addReading" placeholder="例： ねこ" autocomplete="off" readonly style="background:#f9fafb;" /></label>
+      </div>
+      <div class="row2">
+        <button class="btn ghost" id="addCancel">Batal</button>
+        <button class="btn primary" id="addSave">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovEdit" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <h2 id="editTitle">Ubah kartu</h2>
+      <label>Kanji<input id="editKanji" autocomplete="off" /></label>
+      <label>Bacaan<input id="editReading" autocomplete="off" /></label>
+      <label>Arti<input id="editMeaning" autocomplete="off" /></label>
+      <div class="row2">
+        <button class="btn danger" id="editDelete">Hapus</button>
+        <button class="btn ghost" id="editCancel">Batal</button>
+      </div>
+      <button class="btn primary block" id="editSave">Simpan perubahan</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovMemo" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="memoTitle">
+      <h2 id="memoTitle">Memo pribadi</h2>
+      <p class="muted" id="memoFor">Untuk kartu: —</p>
+      <label>Catatanmu<textarea id="memoText" rows="4" placeholder="Tulis cara mengingat, contoh kalimat, dll…"></textarea></label>
+      <div class="row2">
+        <button class="btn ghost" id="memoCancel">Batal</button>
+        <button class="btn primary" id="memoSave">Simpan memo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovNewDeck" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="newDeckTitle">
+      <h2 id="newDeckTitle">Buat Deck Baru</h2>
+      <label>Judul deck<input id="newDeckInput" placeholder="Contoh: Kanji JLPT N5" autocomplete="off" /></label>
+      <div class="row2">
+        <button class="btn ghost" id="newDeckCancel">Batal</button>
+        <button class="btn primary" id="newDeckSave">Buat</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="ovDelCard" hidden>
+    <div class="sheet sheet-del-card" role="dialog" aria-modal="true" aria-labelledby="delCardTitle">
+      <div class="sheet-hero">
+        <span class="sheet-glyph">消</span>
+        <div class="sheet-hero-txt">
+          <h2 id="delCardTitle">Hapus kartu?</h2>
+          <p class="sheet-sub" id="delCardSub">akan dihapus permanen</p>
+        </div>
+      </div>
+      <div class="sheet-body">
+        <div class="del-card-preview" id="delCardPreview">
+          <span class="del-card-kanji" id="delCardKanji">—</span>
+          <span class="del-card-reading" id="delCardReading">—</span>
+        </div>
+        <p class="del-card-meta" id="delCardMeta">—</p>
+        <p class="del-warning">⚠ Tindakan tidak bisa dibatalkan.</p>
+        <div class="row2">
+          <button class="btn ghost" id="delCardCancel">Batal</button>
+          <button class="btn danger" id="delCardSave">Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="toast toast-undo" id="toastUndo" role="status" aria-live="polite" hidden>
+    <span id="toastUndoMsg"></span>
+    <button class="btn-undo" id="toastUndoBtn" aria-label="Batalkan hapus">Undo</button>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

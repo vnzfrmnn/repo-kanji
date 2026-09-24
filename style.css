@@ -1,4 +1,51 @@
 /* Kanji Flashcards — mobile-first, ungu + biru-abu */
+
+/* Plus Jakarta Sans — offline fonts */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("./assets/fonts/plus-jakarta-sans/static/PlusJakartaSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("./assets/fonts/plus-jakarta-sans/static/PlusJakartaSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("./assets/fonts/plus-jakarta-sans/static/PlusJakartaSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("./assets/fonts/plus-jakarta-sans/static/PlusJakartaSans-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Noto Sans JP — offline fonts */
+@font-face {
+  font-family: "Noto Sans JP";
+  src: url("./assets/fonts/noto-sans-jp/static/NotoSansJP-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Sans JP";
+  src: url("./assets/fonts/noto-sans-jp/static/NotoSansJP-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root{
   --purple:#7c3aed; --purple2:#a855f7; --pink:#ec4899;
   --ink:#1e1b2e; --muted:#6b7280; --line:#ece9f7;
@@ -28,20 +75,86 @@ body{
 .header{
   background:linear-gradient(135deg,var(--purple),var(--purple2) 55%,var(--pink));
   color:#fff; display:flex; align-items:center; justify-content:space-between;
-  padding:14px 12px 16px;
+  padding:14px 12px 16px; position:relative;
 }
 .hbtn{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25); color:#fff;
   border-radius:14px; padding:6px 10px; display:flex; flex-direction:column; align-items:center; gap:2px;
   font:700 11px/1 var(--font-ui); cursor:pointer; min-width:58px; transition:.2s;}
 .hbtn svg{width:20px; height:20px}
 .hbtn:hover{background:rgba(255,255,255,.26)} .hbtn:focus-visible{outline:3px solid #fff; outline-offset:2px}
-.brand{text-align:center; display:flex; flex-direction:column; line-height:1}
+.brand{text-align:center; display:flex; flex-direction:column; line-height:1; gap:4px;
+  position:absolute; left:50%; transform:translateX(-50%); pointer-events:none}
 .brand-kanji{font-family:var(--font-jp); font-weight:900; font-size:26px; letter-spacing:.15em}
 .brand-sub{font-size:11px; font-weight:700; letter-spacing:.35em; text-transform:uppercase; opacity:.9}
 
 .phone{padding:0 16px 20px; display:flex; flex-direction:column; gap:14px}
 .deck h1{font-size:19px; margin:16px 0 2px; text-transform:lowercase}
 .deck-meta{margin:0; color:var(--muted); font-size:13px}
+
+/* Hero — Dashboard */
+.hero{display:flex; flex-direction:column; align-items:center; text-align:center; padding:20px 0 8px}
+.hero-kanji{font-family:var(--font-jp); font-weight:900; font-size:clamp(80px,28vw,140px); line-height:1; color:transparent; background:linear-gradient(135deg,var(--purple),var(--pink)); -webkit-background-clip:text; background-clip:text; opacity:.85}
+.hero-title{font-family:var(--font-ui); font-weight:800; font-size:clamp(24px,6vw,36px); color:var(--ink); margin:0 0 4px; letter-spacing:-.02em}
+.hero-sub{font-size:14px; color:var(--muted); font-weight:500; margin:0 0 16px}
+
+/* Deck Boxes — Dashboard (2-column centered grid) */
+#deckBoxesContainer{
+  display:grid; 
+  grid-template-columns:repeat(2, 1fr); 
+  gap:16px; 
+  padding:4px 0;
+  max-width:420px;
+  margin:0 auto;
+}
+.deck-boxes{
+  width:100%;
+}
+.deck-box-wrap{position:relative}
+.deck-box{
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center; 
+  gap:10px;
+  padding:24px 16px; 
+  border:1.5px solid var(--line); 
+  border-radius:var(--radius); 
+  background:#fff;
+  text-decoration:none; 
+  color:var(--ink); 
+  cursor:pointer; 
+  transition:.2s; 
+  box-shadow:0 4px 12px -4px rgba(124,58,237,.1); 
+  margin-bottom:0;
+  min-height:140px;
+}
+.deck-box:hover{border-color:var(--purple); background:#f5f3ff; transform:translateY(-2px); box-shadow:0 8px 24px -4px rgba(124,58,237,.2)}
+.deck-box:focus-visible{outline:3px solid var(--purple); outline-offset:2px}
+.deck-box .db-icon{font-family:var(--font-jp); font-weight:900; font-size:40px; color:var(--purple); opacity:.6}
+.deck-box .db-title{font-family:var(--font-jp); font-weight:900; font-size:15px; text-align:center; line-height:1.3}
+.deck-box .db-count{font-size:12px; color:var(--muted); font-weight:600; background:#ede9fe; padding:2px 8px; border-radius:999px}
+
+/* Responsive: 1 kolom di mobile kecil */
+@media(max-width:420px){
+  #deckBoxesContainer{
+    grid-template-columns:1fr;
+    max-width:100%;
+  }
+}
+.deck-del{position:absolute; top:10px; right:10px; z-index:2; border:1px solid var(--line); border-radius:999px;
+  width:44px; height:44px; display:grid; place-items:center; cursor:pointer; color:#e11d48;
+  background:rgba(255,255,255,.95); box-shadow:0 4px 10px -4px rgba(225,29,72,.28); transition:.18s}
+.deck-del svg{width:17px; height:17px}
+.deck-del:hover,.deck-del:focus-visible{background:#ffe4e6; border-color:#fda4af; transform:scale(1.06)}
+.deck-del:focus-visible{outline:3px solid var(--pink); outline-offset:2px}
+.deck-empty{grid-column:1/-1; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;
+  padding:36px 20px; border:1.5px dashed #d8b4fe; border-radius:var(--radius); background:#faf7ff}
+.deck-empty .db-icon{font-family:var(--font-jp); font-weight:900; font-size:38px; color:#a78bfa; opacity:.8}
+.deck-empty .db-title{font-family:var(--font-jp); font-weight:900; font-size:17px}
+.deck-empty .db-count{margin:0; font-size:13px; color:var(--muted)}
+.sheet input:focus,.sheet textarea:focus{outline:3px solid #ddd6fe; border-color:var(--purple)}
+
+.foot{text-align:center; font-size:12px; color:var(--muted); padding:14px; margin-top:auto}
 
 /* Toolbar */
 .toolbar{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
@@ -111,36 +224,93 @@ body{
 .danger{background:#fef2f2; color:#b91c1c; border-color:#fecaca}
 .block{width:100%; margin-top:10px}
 .keys{text-align:center; font-size:12px; color:var(--muted); margin:0}
-.filter-note{margin:0; font-size:13px; background:#fffbeb; border:1px solid #fde68a; padding:8px 12px; border-radius:12px}
+ .filter-note{margin:0; font-size:13px; background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border:none; padding:10px 14px; border-radius:12px}
 .link{background:none; border:0; color:var(--purple); font-weight:800; cursor:pointer; text-decoration:underline}
-
-.foot{text-align:center; font-size:12px; color:var(--muted); padding:14px; margin-top:auto}
-
-/* Sheet / modal */
 .overlay{position:fixed; inset:0; background:rgba(30,27,46,.55); display:flex; align-items:flex-end; justify-content:center; z-index:50; padding:0}
 .overlay[hidden]{display:none}
 .sheet{background:#fff; width:100%; max-width:480px; border-radius:22px 22px 0 0; padding:20px 18px 24px;
   animation:up .28s ease; max-height:86vh; overflow:auto}
 @media(min-width:560px){.overlay{align-items:center; padding:20px} .sheet{border-radius:22px}}
 @keyframes up{from{transform:translateY(30px); opacity:0} to{transform:none; opacity:1}}
-.sheet h2{margin:0 0 12px; font-size:18px}
-.sheet h2 small{color:var(--muted); font-weight:600}
-.sheet label{display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:700; margin:10px 0}
-.sheet input,.sheet textarea{font:500 15px var(--font-ui); padding:12px; border-radius:12px; border:1.5px solid var(--line); width:100%}
-.sheet input:focus,.sheet textarea:focus{outline:3px solid #ddd6fe; border-color:var(--purple)}
-.seg{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px}
-.seg-btn{padding:12px; border-radius:12px; border:1.5px solid var(--line); background:#fff; font:800 14px var(--font-ui); cursor:pointer}
-.seg-btn.active{background:#ede9fe; border-color:var(--purple); color:#4c1d95}
-.row-check{display:flex!important; flex-direction:row!important; align-items:center; gap:10px!important; font-weight:600!important}
-.row-check input{width:20px; height:20px; accent-color:var(--purple)}
-.row2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px}
-.search{margin-bottom:10px}
+
+/* Sheet with gradient hero (buat deck baru) */
+.sheet-add{padding:0; overflow:hidden}
+.sheet-hero{background:linear-gradient(135deg,var(--purple),var(--purple2) 55%,var(--pink));
+  display:flex; align-items:center; gap:14px; padding:22px 18px 20px; color:#fff}
+.sheet-glyph{font-family:var(--font-jp); font-weight:900; font-size:46px; line-height:1;
+  width:58px; height:58px; display:grid; place-items:center; border-radius:16px;
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28)}
+.sheet-hero-txt h2{margin:0; font-size:20px; font-weight:800; letter-spacing:-.01em}
+.sheet-sub{margin:4px 0 0; font-size:12.5px; font-weight:600; color:rgba(255,255,255,.85)}
+.sheet-body{padding:20px 18px 24px}
+
+/* Sheet with rose gradient hero (hapus deck) */
+.sheet-del .sheet-hero{background:linear-gradient(135deg,#be123c,var(--pink))}
+.sheet-del .sheet-glyph{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3)}
+.del-note{margin:0 0 4px; font-size:13.5px; line-height:1.55; color:var(--muted); background:#fff5f6;
+  border:1px solid #fecdd3; border-radius:14px; padding:12px 14px}
+
+/* Sheet for card delete */
+.sheet-del-card{padding:0; overflow:hidden}
+.sheet-del-card .sheet-hero{background:linear-gradient(135deg,#be123c,#fb7185); position:relative}
+.sheet-del-card .sheet-hero::after{content:""; position:absolute; inset:0; opacity:.15;
+  background:radial-gradient(120px 80px at 50% 0%, #fff, transparent 70%)}
+.sheet-del-card .sheet-glyph{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3)}
+.sheet-del-card .sheet-body{padding:24px 18px 28px; text-align:center}
+.del-card-preview{margin:8px 0 16px; animation:kanjiBounce .5s cubic-bezier(.2,.7,.3,1.2)}
+.del-card-kanji{font-family:var(--font-jp); font-weight:900; font-size:56px; line-height:1; 
+  background:linear-gradient(135deg,#fff,#fbcfe8); -webkit-background-clip:text; background-clip:text; color:transparent; display:block}
+.del-card-reading{font-family:var(--font-jp); font-weight:700; font-size:18px; color:rgba(255,255,255,.9); display:block; margin-top:4px}
+.del-card-meta{font-size:13px; color:var(--muted); margin:8px 0 16px; line-height:1.5}
+.del-warning{font-size:12px; color:#be123c; background:#fff1f2; border:1px solid #fecdd3; border-radius:12px; padding:10px 12px; margin:16px 0 8px}
+
+/* Toast with undo */
+.toast-undo{position:fixed; left:50%; bottom:80px; transform:translateX(-50%);
+  display:flex; align-items:center; justify-content:space-between; gap:12px; 
+  background:var(--ink); color:#fff; padding:14px 18px; border-radius:999px; 
+  box-shadow:0 10px 30px rgba(0,0,0,.3); min-width:280px; max-width:90vw; z-index:99}
+.toast-undo[hidden]{display:none}
+.btn-undo{background:transparent; border:1px solid rgba(255,255,255,.4); color:#fff; 
+  font:700 13px var(--font-ui); padding:6px 14px; border-radius:999px; cursor:pointer; 
+  transition:.15s; flex-shrink:0}
+.btn-undo:hover{background:rgba(255,255,255,.15); border-color:#fff}
+.btn-undo:focus-visible{outline:3px solid var(--purple); outline-offset:2px}
+
+/* Kanji bounce animation */
+@keyframes kanjiBounce{
+  0%{transform:scale(.6); opacity:0}
+  40%{transform:scale(1.08)}
+  60%{transform:scale(.95)}
+  100%{transform:scale(1); opacity:1}
+}
+@media(prefers-reduced-motion:reduce){ .del-card-preview{animation:none} }
+
+/* Form elements in sheets */
+.sheet input,.sheet textarea,.sheet select{
+  width:100%; font:500 16px var(--font-ui); padding:14px 16px;
+  border:1.5px solid var(--line); border-radius:14px; background:#fff;
+  color:var(--ink); box-sizing:border-box;
+}
+.sheet input::placeholder,.sheet textarea::placeholder{color:var(--muted)}
+.sheet label{display:flex; flex-direction:column; gap:8px; font:600 14px var(--font-ui); margin:14px 0;}
+.sheet input:focus,.sheet textarea:focus,.sheet select:focus{outline:3px solid #ddd6fe; border-color:var(--purple)}
+.sheet .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px}
+.sheet .row2 .btn{min-height:48px; font-size:15px}
+.sheet .block{width:100%; margin-top:18px}
+
+/* Search in list */
+.search{width:100%; font:500 16px var(--font-ui); padding:14px 16px; margin-bottom:12px;
+  border:1.5px solid var(--line); border-radius:14px; background:#fff; color:var(--ink); box-sizing:border-box;}
+.search:focus{outline:3px solid #ddd6fe; border-color:var(--purple)}
+.search::placeholder{color:var(--muted)}
+
+/* List items - larger touch targets */
 .list{display:flex; flex-direction:column; gap:8px; max-height:44vh; overflow:auto}
-.item{display:flex; align-items:center; gap:12px; text-align:left; padding:10px 12px; border:1px solid var(--line);
-  border-radius:14px; background:#fff; cursor:pointer; font:600 14px var(--font-ui); width:100%}
+.item{display:flex; align-items:center; gap:12px; text-align:left; padding:14px 16px; border:1px solid var(--line);
+  border-radius:14px; background:#fff; cursor:pointer; font:600 15px var(--font-ui); width:100%; min-height:52px}
 .item:hover{background:#faf5ff} .item.active{border-color:var(--purple); background:#f5f3ff}
-.item .k{font-family:var(--font-jp); font-weight:900; font-size:20px; min-width:74px}
-.item .m{color:var(--muted); font-size:12px; display:block}
+.item .k{font-family:var(--font-jp); font-weight:900; font-size:22px; min-width:80px}
+.item .m{color:var(--muted); font-size:13px; display:block}
 .item .star{margin-left:auto}
 .muted{color:var(--muted); font-size:13px; margin:0 0 4px}
 .toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); background:var(--ink); color:#fff;
@@ -150,3 +320,170 @@ body{
 /* Gerakan swipe */
 .card.swiping .card-inner{transition:none}
 @media(prefers-reduced-motion:reduce){ .card-inner,.fill{transition:none} .sheet{animation:none} }
+.deck-title-row{position:relative}
+.deck-title-row::after{content:""; position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, var(--purple), transparent); opacity:0.5}
+
+/* ── Responsiveness for all phones ── */
+html{
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); -webkit-overflow-scrolling:touch}
+.app{
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
+  max-width:100vw; overflow-x:hidden;
+}
+
+/* Small screens (< 370px) */
+@media(max-width:370px){
+  .hero-kanji{font-size:clamp(56px,24vw,100px)}
+  .hero-title{font-size:clamp(20px,5.5vw,28px)}
+  .kanji{font-size:clamp(56px,20vw,90px)}
+  .reading{font-size:clamp(24px,7vw,34px)}
+  .meaning{font-size:clamp(16px,4.5vw,20px)}
+  .card-inner{height:min(50vh,340px); min-height:280px}
+  .face{padding:44px 18px 52px}
+  .deck-boxes{gap:14px}
+  .deck-box{padding:16px 12px}
+  .deck-box .db-icon{font-size:28px}
+  .deck-box .db-title{font-size:14px}
+  .toolbar{gap:6px; padding:8px}
+  .tool-ic{width:38px; height:38px; font-size:18px}
+  .corner{padding:6px}
+  .corner svg{width:16px; height:16px}
+  .hbtn{padding:5px 8px; min-width:50px; border-radius:12px}
+  .hbtn svg{width:18px; height:18px}
+  .brand-kanji{font-size:22px}
+  .hero{padding:14px 0 6px}
+  .sheet{padding:16px 14px 20px}
+  .sheet input,.sheet textarea,.sheet select{font-size:15px; padding:12px 14px}
+  .sheet label{font-size:13px; margin:12px 0; gap:6px}
+  .sheet .row2 .btn{font-size:14px; min-height:44px}
+  .search{font-size:15px; padding:12px 14px}
+/* List items with delete button */
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  min-height: 56px;
+}
+.item .k { font-family: var(--font-jp); font-weight: 900; font-size: 20px; min-width: 70px; }
+.item .m { color: var(--muted); font-size: 13px; margin-left: 8px; }
+.item-delete {
+  background: none;
+  border: none;
+  color: #e11d48;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.item:hover .item-delete,
+.item:focus-within .item-delete {
+  opacity: 1;
+}
+.item-delete:hover {
+  background: rgba(225, 29, 72, 0.1);
+}
+.item-delete svg {
+  width: 18px;
+  height: 18px;
+}
+}
+
+/* Landscape orientation */
+@media(max-height:500px) and (orientation:landscape){
+  .app{min-height:auto; max-height:100vh; overflow:hidden}
+  .header{padding:8px 10px 10px}
+  .brand-kanji{font-size:20px}
+  .hero{padding:8px 0 4px; margin-bottom:0}
+  .hero-kanji{font-size:clamp(48px,18vw,72px)}
+  .hero-title{font-size:clamp(18px,4vw,22px); margin-bottom:2px}
+  .hero-sub{font-size:12px; margin-bottom:8px}
+  .card-inner{height:min(38vh,260px); min-height:220px}
+  .kanji{font-size:clamp(48px,18vw,80px)}
+  .reading{font-size:clamp(22px,6vw,30px)}
+  .meaning{font-size:clamp(15px,4vw,18px)}
+  .face{padding:36px 16px 44px}
+  .corner{display:none}
+  .nav{gap:6px}
+  .btn{padding:10px 6px; font-size:12px}
+  .toolbar{padding:6px 8px; gap:6px}
+  .tool{padding:4px 2px}
+  .tool-ic{width:36px; height:36px; font-size:16px}
+  .progress-row{margin-top:4px}
+  .keys{display:none}
+}
+
+/* Medium screens (tablet portrait / large phones) */
+@media(min-width:371px) and (max-width:560px){
+  .card-inner{height:min(55vh,400px)}
+  .kanji{font-size:clamp(64px,20vw,100px)}
+}
+
+/* Touch target minimum */
+.hbtn,.tool,.btn,.corner,.deck-box,.item,.seg-btn,.deck-del{
+  min-height:44px; min-width:44px;
+  touch-action:manipulation;
+}
+
+/* Filter segmented control */
+.seg{display:flex; gap:8px; margin-bottom:12px;}
+.seg-btn{flex:1; background:#fff; border:1px solid var(--line); border-radius:12px; padding:8px 0; font:600 14px var(--font-ui); color:var(--ink); text-align:center; transition:.2s;}
+.seg-btn.active{background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; border-color:transparent;}
+.seg-btn:not(.active):hover{background:var(--purple2); color:#fff;}
+
+
+/* Prevent horizontal overflow */
+.toolbar{overflow:hidden}
+.card-wrap{overflow:hidden; max-width:100%}
+.card-inner{will-change:transform; -webkit-transform-style:preserve-3d; transform-style:preserve-3d}
+
+/* Sheet full-height on very short screens */
+@media(max-height:420px){
+  .sheet{max-height:100vh; border-radius:18px 18px 0 0; padding:14px 14px 20px}
+  .overlay{align-items:stretch}
+}
+
+/* Prevent 300ms double-tap delay */
+@media(pointer:coarse){
+  .hbtn,.tool,.btn,.corner,.deck-box,.item,.seg-btn,.deck-del{
+    touch-action:manipulation;
+  }
+}
+
+/* Fix for iOS Safari bottom bar */
+@supports (-webkit-touch-callout:none){
+  .app{
+    min-height:-webkit-fill-available;
+  }
+}
+@media screen and (min-width:768px){
+  .app{margin:32px auto; max-width:480px}
+}
+
+/* Kanji suggestion buttons */
+.kanji-suggestion {
+  background:#f9fafb !important;
+  border:1px solid #d1d5db !important;
+  font-family:var(--font-jp);
+  font-weight:700;
+  font-size:18px;
+  padding:6px 12px !important;
+  border-radius:6px;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.kanji-suggestion:hover {
+  background:#f3f4f6 !important;
+  border-color:#9ca3af !important;
+  transform:scale(1.05);
+}
+.kanji-suggestion:active {
+  background:#e5e7eb !important;
+  transform:scale(0.98);
+}
