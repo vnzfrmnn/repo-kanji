@@ -189,13 +189,13 @@ function initDecks() {
   const ayahnya1Ids = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 53 && parseInt(c.id.replace("d", "")) < 86).map(c => c.id);
   let ayahnya1 = decks.find(d => d.id === "ayahnya1");
   if (ayahnya1) { ayahnya1.cardIds = ayahnya1Ids; } else { decks.push({ id: "ayahnya1", title: "AYAHNYA 1", cardIds: ayahnya1Ids }); }
-  const ayahnya2Ids = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 86).map(c => c.id);
+  const ayahnya2Ids = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 86 && parseInt(c.id.replace("d", "")) <= 183).map(c => c.id);
   let ayahnya2 = decks.find(d => d.id === "ayahnya2");
   if (ayahnya2) { ayahnya2.cardIds = ayahnya2Ids; } else { decks.push({ id: "ayahnya2", title: "AYAHNYA 2", cardIds: ayahnya2Ids }); }
-  const kanji57ayahIds = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 203 && parseInt(c.id.replace("d", "")) <= 259).map(c => c.id);
+  const kanji57ayahIds = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 184 && parseInt(c.id.replace("d", "")) <= 240).map(c => c.id);
   let kanji57ayah = decks.find(d => d.id === "kanji5-7-ayah");
   if (kanji57ayah) { kanji57ayah.cardIds = kanji57ayahIds; } else { decks.push({ id: "kanji5-7-ayah", title: "Kanji 5-7 AYAH", cardIds: kanji57ayahIds }); }
-  const kanji57anakIds = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 260 && parseInt(c.id.replace("d", "")) <= 440).map(c => c.id);
+  const kanji57anakIds = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 241 && parseInt(c.id.replace("d", "")) <= 421).map(c => c.id);
   let kanji57anak = decks.find(d => d.id === "kanji5-7-anak");
   if (kanji57anak) { kanji57anak.cardIds = kanji57anakIds; } else { decks.push({ id: "kanji5-7-anak", title: "Kanji 5-7 ANAK", cardIds: kanji57anakIds }); }
   try { save(LS.decks, decks); } catch (e) { console.warn("localStorage unavailable"); }
