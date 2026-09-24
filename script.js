@@ -182,11 +182,17 @@ function getAllCards() {
 
 function initDecks() {
   let decks = load(LS.decks, null);
+  const allCards = getAllCards();
   if (!decks) {
-    const allCards = getAllCards();
     decks = [{ id: "default", title: "kanji angka, hubungan manusia", cardIds: allCards.map(c => c.id) }];
-    try { save(LS.decks, decks); } catch (e) { console.warn("localStorage unavailable"); }
   }
+  const ayahnya1Ids = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 53 && parseInt(c.id.replace("d", "")) < 86).map(c => c.id);
+  let ayahnya1 = decks.find(d => d.id === "ayahnya1");
+  if (ayahnya1) { ayahnya1.cardIds = ayahnya1Ids; } else { decks.push({ id: "ayahnya1", title: "AYAHNYA 1", cardIds: ayahnya1Ids }); }
+  const ayahnya2Ids = allCards.filter(c => c.id.startsWith("d") && parseInt(c.id.replace("d", "")) >= 86).map(c => c.id);
+  let ayahnya2 = decks.find(d => d.id === "ayahnya2");
+  if (ayahnya2) { ayahnya2.cardIds = ayahnya2Ids; } else { decks.push({ id: "ayahnya2", title: "AYAHNYA 2", cardIds: ayahnya2Ids }); }
+  try { save(LS.decks, decks); } catch (e) { console.warn("localStorage unavailable"); }
   return decks;
 }
 
@@ -467,6 +473,38 @@ let deckToDeleteIdx = -1;
 let cardToDeleteId = null;
 let deletedCardBackup = null;
 
+function openDeleteSheet(idx) {
+  deckToDeleteIdx = idx;
+  const name = $("delDeckName");
+  if (name && decks[idx]) name.textContent = decks[idx].title;
+  openSheet("ovDelDeck");
+}
+
+function startEditDeckTitle(idx) {
+  const boxes = document.querySelectorAll(".deck-box");
+  const box = boxes[idx];
+  if (!box) return;
+  const titleEl = box.querySelector(".db-title");
+  if (!titleEl) return;
+  const currentTitle = titleEl.textContent.trim();
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = currentTitle;
+  input.style.cssText = "font:700 15px var(--font-jp); text-align:center; width:100%; padding:4px 8px; border:2px solid var(--purple); border-radius:8px; outline:none; background:#fff;";
+  input.maxLength = 40;
+  titleEl.textContent = "";
+  titleEl.appendChild(input);
+  input.focus();
+  input.select();
+  const finish = () => {
+    const nt = input.value.trim();
+    if (nt && nt !== currentTitle) { decks[idx].title = nt; save(LS.decks, decks); syncDeckSelector(); toast("Judul diubah"); }
+    titleEl.textContent = currentTitle;
+  };
+  input.addEventListener("blur", finish);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); input.blur(); } else if (e.key === "Escape") { input.value = currentTitle; input.blur(); } });
+}
+
 function deleteCard(cardId) {
   // Find card data before deleting for undo
   const allCards = getAllCards();
@@ -620,9 +658,15 @@ function renderDeckBoxes() {
     del.setAttribute("aria-label", `Hapus deck ${dd.title}`);
     del.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>`;
     del.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); openDeleteSheet(ii); });
+    const editBtn = document.createElement("button");
+    editBtn.className = "deck-edit";
+    editBtn.setAttribute("aria-label", `Edit judul deck ${dd.title}`);
+    editBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+    editBtn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); startEditDeckTitle(ii); });
     const wrap = document.createElement("div");
     wrap.className = "deck-box-wrap";
     wrap.appendChild(b);
+    wrap.appendChild(editBtn);
     wrap.appendChild(del);
     bc.appendChild(wrap);
   });
