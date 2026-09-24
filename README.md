@@ -12,19 +12,22 @@ npx serve .
 python -m http.server 8000
 ```
 
-## Deploy ke Netlify
+## Fitur Utama
 
-1. Drag & drop folder ini ke [app.netlify.com/drop](https://app.netlify.com/drop), **atau**
-2. Push ke GitHub → Netlify → *Add new site → Import an existing project* → biarkan build kosong (situs statis, `netlify.toml` sudah disediakan).
-
-## Deploy ke Vercel
-
-1. Push ke GitHub → Vercel → *Add New → Project* → Import repo → Framework Preset: **Other**, tanpa build command (`vercel.json` sudah disediakan), **atau**
-2. `npx vercel` dari folder ini.
+- **Flashcard 3D flip** — klik/ketuk kartu untuk balik, swipe kiri/kanan navigasi
+- **Auto-generate Kanji** — ketik **Romaji** (contoh: `neko`, `tomodachi`, `sensei`) → Kanji & Hiragana terisi otomatis  
+  Atau ketik **Arti Indonesia** (contoh: `kucing`, `teman`, `guru`) → Kanji diambil dari kamus/kartu existing
+- **Multiple Deck** — buat/hapus deck, tiap deck punya kartu sendiri
+- **List & Search** — daftar kartu per deck dengan pencarian real-time
+- **Edit & Delete** — ubah/hapus kartu dengan konfirmasi overlay indah + **Undo 5 detik**
+- **Bookmark & Memo** — tandai kartu suka & catatan pribadi per kartu
+- **Test Mode** — acak semua kartu untuk latihan
+- **Offline-first** — 100% localStorage, font offline (Plus Jakarta Sans, Noto Sans JP), PWA-ready
+- **Responsive & Accessible** — touch target ≥44px, prefers-reduced-motion, keyboard navigation
 
 ## Ubah / tambah kartu
 
-Edit `data.js`:
+Edit `data.js` untuk kartu bawaan:
 
 ```js
 const cards = [
